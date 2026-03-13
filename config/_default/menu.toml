@@ -7,18 +7,33 @@
 #icon = "home"
 #newtab = true
 
+# 1. GitHub
 [[social]]
-    identifier = "github"
-    name       = "GitHub"
-    url        = "https://github.com"
-
+    name = "GitHub"
+    weight = 1
+    url = "https://github.com/J1ngZ112"
     [social.params]
-        icon = "brand-github"
+        icon = "brand-github" # 这里的名字对应图标
+
+# 2. 邮箱 (Email)
+[[social]]
+    name = "Email"
+    weight = 2
+    url = "mailto:jzfeng0112@gmail.com"
+    [social.params]
+        icon = "mail" 
+
+# 3. 哔哩哔哩 (Bilibili)
+[[social]]
+    name = "Bilibili"
+    weight = 3
+    url = "https://space.bilibili.com/63945101"
+    [social.params]
+        icon = "brand-bilibili"
 
 [[social]]
-    identifier = "twitter"
-    name       = "Twitter"
-    url        = "https://twitter.com"
-
+    name = "Instagram"
+    weight = 4
+    url = "https://www.instagram.com/jzfeng.112?igsh=MXZnNGhsZmpiMGxqNw%3D%3D&utm_source=qr" 
     [social.params]
-        icon = "brand-twitter"
+        icon = "brand-instagram"
