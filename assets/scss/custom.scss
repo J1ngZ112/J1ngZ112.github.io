@@ -1,3 +1,145 @@
-/*
-    You can add your own custom styles here.
-*/
+/* macOS-like code block */
+.article-content .highlight {
+    --code-margin-y: 0rem;
+    --code-radius: 25px;
+    --code-shadow-light: 0 8px 16px rgba(0, 0, 0, 0.05);
+    --code-shadow-dark: 0 8px 16px rgba(0, 0, 0, 0.4);
+    --bar-height: 36px;
+    --dots-size: 12px;
+    --dots-top: 13px;
+    --dots-left: 20px;
+    --code-padding-top: 40px;
+    --code-padding-right: 6px;
+    --code-padding-bottom: 6px;
+    --code-padding-left: 6px;
+    --copy-top: 3px;
+    --copy-right: 12px;
+    --copy-opacity: 0;
+
+    position: relative;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: var(--code-margin-y) 0 !important;
+    padding: 10px !important;
+    border-radius: var(--code-radius);
+    overflow: hidden;
+    box-shadow: var(--code-shadow-light);
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: var(--dots-top);
+        left: var(--dots-left);
+        width: var(--dots-size);
+        height: var(--dots-size);
+        border-radius: 50%;
+        background: #fc625d;
+        box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
+        z-index: 2;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--bar-height);
+        background-color: rgba(125, 125, 125, 0.1);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    pre {
+        margin: 0 !important;
+        padding: var(--code-padding-top) var(--code-padding-right) var(--code-padding-bottom) var(--code-padding-left) !important;
+        overflow-x: auto !important;
+        scrollbar-color: rgba(140, 140, 140, 0.45) transparent;
+        box-sizing: border-box !important;
+        max-width: 100% !important;
+
+        &::-webkit-scrollbar {
+            height: 8px;
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(140, 140, 140, 0.45);
+            border-radius: 999px;
+        }
+
+        &::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+    }
+
+    .chroma {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .copy-btn,
+    .copyBtn,
+    .copy-code,
+    .copyCodeButton {
+        position: absolute !important;
+        top: var(--copy-top) !important;
+        right: var(--copy-right) !important;
+        margin: 0 !important;
+        transform: translateY(0) !important;
+        z-index: 3 !important;
+        opacity: var(--copy-opacity) !important;
+        transition: opacity 0.3s;
+    }
+
+    &:hover .copy-btn,
+    &:hover .copyBtn,
+    &:hover .copy-code,
+    &:hover .copyCodeButton {
+        opacity: 1 !important;
+    }
+}
+
+[data-scheme="dark"] .article-content .highlight {
+    box-shadow: var(--code-shadow-dark);
+}
+
+/* TOC: remove markers and tighten left spacing */
+.toc-nav {
+
+    li {
+        // 每行的上下间距
+        margin: 1.2rem 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+    }
+
+    >ul,
+    >ol {
+        padding: 0.8rem 0.8rem !important;
+    }
+
+    li>ul,
+    li>ol {
+        margin-top: 0.25rem !important;
+        padding-left: 0.3rem !important;
+    }
+
+    a {
+        //文字内部空隙
+        display: block;
+        padding: 0.3rem 0.5rem;
+        border-left: 2px solid transparent;
+    }
+
+    li.active-class>a {
+        margin-left: 0 !important;
+        padding-left: 0.45rem !important;
+        border-left-width: 2px !important;
+    }
+}

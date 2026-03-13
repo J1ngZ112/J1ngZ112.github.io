@@ -18,7 +18,7 @@ SortBy              = "default"
     lastUpdated = ":date_full"
 
 [sidebar]
-    emoji    = "🍥"
+    emoji    = "💌"
     subtitle = "随笔和Blog"
     avatar   = "img/avatar.JPG"
 
