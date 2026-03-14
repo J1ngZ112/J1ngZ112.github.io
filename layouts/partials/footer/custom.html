@@ -61,6 +61,19 @@
             padding-top: 9px;
         }
     }
+
+    .article-meta .article-pv {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .article-meta .article-pv svg {
+        width: 20px;
+        height: 20px;
+        stroke-width: 1.7;
+        margin-right: 6px;
+    }
 </style>
 
 <script>
@@ -108,9 +121,46 @@
         });
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initCodeMoreBox);
-    } else {
+    function initArticlePageView() {
+        const metaInline = document.querySelector('.main-article .article-meta .inline-meta');
+        if (!metaInline || document.getElementById('busuanzi_value_page_pv')) {
+            return;
+        }
+
+        const pvWrapper = document.createElement('span');
+        pvWrapper.className = 'article-pv';
+        pvWrapper.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv">0</span> Views
+            </span>
+        `;
+        metaInline.appendChild(pvWrapper);
+    }
+
+    function loadBusuanziScript() {
+        if (document.getElementById('busuanzi-script')) {
+            return;
+        }
+        const script = document.createElement('script');
+        script.id = 'busuanzi-script';
+        script.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+        script.async = true;
+        document.body.appendChild(script);
+    }
+
+    function initCustomFeatures() {
         initCodeMoreBox();
+        initArticlePageView();
+        loadBusuanziScript();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCustomFeatures);
+    } else {
+        initCustomFeatures();
     }
 </script>

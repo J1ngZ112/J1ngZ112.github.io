@@ -19,7 +19,7 @@ draft: false
 
 针对**Stack v4**作者的建议，我们可以不用普通的 `hugo new site` 来从零搭了（因为它的配置项非常丰富，从零手写容易漏掉）。官方强烈推荐使用它的 **Starter（启动模板）**。
 
-### 第一步：安装核心环境（Hugo 扩展版 + Go 语言）
+### 第一步：安装核心环境
 
 Stack 主题由于使用了 SCSS 预处理器，**必须**使用 Hugo 的扩展版（Extended version）；同时 v4 启用了 Hugo Modules，这就要求你的 Mac 上必须装有 **Go 语言环境**。
 
@@ -65,7 +65,7 @@ hugo mod tidy
 
 ---
 
-### 第三步：用 VS Code 进行极客化配置
+### 第三步：用 VS Code 进行配置
 
 在终端输入以下命令，用 VS Code 打开你的博客项目：
 ```bash
@@ -121,7 +121,7 @@ hugo server -D
 
 ---
 
-### 第五步：自动化部署到 GitHub Pages（终极工作流）
+### 第五步：自动化部署到 GitHub Pages
 
 原作者的 starter 模板其实已经自带了一个 `.github/workflows/deploy.yml`。为了确保使用的是最新的、最稳定的 GitHub 官方 Actions 环境，我们把它稍微替换一下。
 
