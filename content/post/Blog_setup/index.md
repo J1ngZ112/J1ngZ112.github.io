@@ -198,4 +198,4 @@ git push -u origin main
 **大功告成！**
 现在去 GitHub 的 Actions 面板，等大概 15 秒钟绿色对勾亮起，你的博客就正式上线了！
 
-之后每次写完文章（记得改 draft: false），直接用 VS Code 的源代码管理点一下**"同步更改 (Sync Changes)"**，剩下的交给 GitHub 云端去自动编译即可，你甚至不用在本地生成任何 HTML 文件。
+之后每次写完文章（记得改 draft: false），直接用 VS Code 的源代码管理点一下**同步更改 (Sync Changes)**，剩下的交给 GitHub 云端去自动编译即可，你甚至不用在本地生成任何 HTML 文件。
