@@ -1,3 +1,25 @@
+@font-face {
+    font-family: "ChildFunSans";
+    src: url("../font/ChildFunSans-Demo.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range:
+        U+2E80-2EFF,
+        U+2F00-2FDF,
+        U+3000-303F,
+        U+31C0-31EF,
+        U+3400-4DBF,
+        U+4E00-9FFF,
+        U+F900-FAFF;
+}
+
+:root {
+    --base-font-family: "ChildFunSans", var(--sys-font-family), sans-serif;
+    --article-font-family: "ChildFunSans", var(--base-font-family), sans-serif;
+    --code-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
 /* macOS-like code block */
 .article-content .highlight {
     --code-margin-y: 0rem;
@@ -141,5 +163,21 @@
         margin-left: 0 !important;
         padding-left: 0.45rem !important;
         border-left-width: 2px !important;
+    }
+}
+
+/* Layout: sidebar width tuning (single breakpoint) */
+@media (min-width: 768px) {
+    .container.extended {
+        --left-sidebar-max-width: 13%;
+        --right-sidebar-max-width: 22%;
+    }
+
+    .container.compact {
+        --left-sidebar-max-width: 15%;
+    }
+
+    .main-container {
+        padding-left: 32px;
     }
 }

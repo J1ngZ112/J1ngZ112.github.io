@@ -1,0 +1,116 @@
+<style>
+    .highlight {
+        /* 你可以根据需要调整这个高度 */
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 72px;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 72%);
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 52px;
+        height: 30px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border: 0;
+        padding-top: 8px;
+        cursor: pointer;
+        pointer-events: auto;
+        touch-action: manipulation;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    @media (max-width: 768px) {
+        .highlight {
+            max-height: 320px;
+        }
+
+        .code-more-box {
+            padding-top: 64px;
+        }
+
+        .code-more-btn {
+            width: 58px;
+            height: 34px;
+            padding-top: 9px;
+        }
+    }
+</style>
+
+<script>
+    const codeMoreImgSrc = '{{ with resources.Get "icons/codeMore.png" }}{{ .RelPermalink }}{{ end }}';
+
+    function initCodeMoreBox() {
+        const codeBlocks = document.querySelectorAll('.highlight');
+        if (!codeBlocks.length) {
+            return;
+        }
+        codeBlocks.forEach(codeBlock => {
+            // 避免重复初始化
+            if (codeBlock.querySelector('.code-more-box')) {
+                return;
+            }
+
+            // 校验是否 overflow
+            if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+                return;
+            }
+
+            const codeMoreBox = document.createElement('div');
+            codeMoreBox.classList.add('code-more-box');
+
+            const codeMoreBtn = document.createElement('button');
+            codeMoreBtn.type = 'button';
+            codeMoreBtn.setAttribute('aria-label', '展开代码');
+            codeMoreBtn.classList.add('code-more-btn');
+            codeMoreBtn.addEventListener('click', () => {
+                codeBlock.classList.add('code-show');
+                codeMoreBox.style.display = 'none';
+                // 触发resize事件，重新计算目录位置
+                window.dispatchEvent(new Event('resize'));
+            });
+
+            const img = document.createElement('img');
+            img.classList.add('code-more-img');
+            if (codeMoreImgSrc) {
+                img.src = codeMoreImgSrc;
+            }
+
+            codeMoreBtn.appendChild(img);
+            codeMoreBox.appendChild(codeMoreBtn);
+            codeBlock.appendChild(codeMoreBox);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCodeMoreBox);
+    } else {
+        initCodeMoreBox();
+    }
+</script>

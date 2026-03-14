@@ -1,16 +1,19 @@
 ---
 title: Hugo + Github 搭建你的个人Blog（最新Stack-V4主题）
-description: 偶然看到别人Blog的搭建，刚好最近不想发社交媒体，就想着搭建个人博客偶尔在里面随便写写，记录些自己想看的东西。因为Hugo的更新，Stack这个主题也更新到4.0版本，网上很少有针对这个主题最新版本的搭建教程，刚好分享我自己的搭建过程，希望对你有帮助
+description: 简单方便的Stack-V4主题Blog搭建
 slug: Tools
 date: 2026-03-06 00:00:00+0000
-image: cover.jpg
+image: cover.png
 categories:
     - 教程
     - Hugo
 tags:
     - MacOS
 weight: 1       # You can add weight to some posts to override the default sorting (date descending)
+draft: false
 ---
+
+偶然看到别人Blog的搭建，刚好最近不想发社交媒体，就想着搭建个人博客偶尔在里面随便写写，记录些自己想看的东西。因为Hugo的更新，Stack这个主题也更新到4.0版本，网上很少有针对这个主题最新版本的搭建教程，刚好分享我自己的搭建过程，希望对你有帮助
 
 **Stack** 是目前 Hugo 生态里**最漂亮、最具设计感**的卡片式博客主题。它的最新版本 **v4** 进行了底层架构的大换血：全面拥抱了 **Hugo Modules（官方模块化）** 和 **TOML 多文件配置**，这使得它比以前用 Git Submodule 安装要优雅和稳定得多。
 
@@ -69,22 +72,22 @@ hugo mod tidy
 code .
 ```
 
-Stack v4 最优雅的地方在于，它把庞杂的配置分散到了 `config/_default/` 文件夹下。在 VS Code 左侧的目录树中找到这个文件夹，我们要改三个核心文件：
+Stack v4 最优雅的地方在于，它把庞杂的配置分散到了 config/_default/ 文件夹下。在 VS Code 左侧的目录树中找到这个文件夹，我们要改三个核心文件：
 
 **1. 基础信息配置：`config.toml`**
-打开 `config/_default/config.toml`：
-* 将 `baseURL` 改成你的 GitHub Pages 地址（例如：`"https://你的用户名.github.io/"`，注意最后有个斜杠）。
-* 将 `title` 改成你博客的名字（比如 `"我的技术笔记"`）。
-* `languageCode` 如果是中文，可以确认是 `"zh-cn"`。
+打开 config/_default/config.toml：
+* 将 baseURL 改成你的 GitHub Pages 地址（例如："https://你的用户名.github.io/"，注意最后有个斜杠）。
+* 将 title 改成你博客的名字（比如 "我的Blog"）。
+* languageCode 如果是中文，可以确认是 "zh-cn"。
 
 **2. 个性化参数配置：`params.toml`**
-打开 `config/_default/params.toml`，这是 Stack 主题的灵魂所在，往下找：
-* **`[sidebar.avatar]`**：把 `local = true` 保持不变，`src = "img/avatar.png"`。你可以把自己的头像重命名为 `avatar.png`，然后放到项目根目录的 `assets/img/` 文件夹里（如果没有这个文件夹就建一个）。
-* **`[sidebar]`**：修改 `emoji` 和 `subtitle`（侧边栏的个性签名）。
-* 里面还有很多强大的开关，比如 `darkmode`（暗黑模式）、`article.readingTime`（阅读时间）等，全都可以根据你的喜好开启（设为 `true`）。
+打开 config/_default/params.toml，这是 Stack 主题的灵魂所在，往下找：
+* **[sidebar.avatar]**：把 local = true 保持不变，src = "img/avatar.png"。你可以把自己的头像重命名为 avatar.png，然后放到项目根目录的 assets/img/ 文件夹里（如果没有这个文件夹就建一个）。
+* **[sidebar]**：修改 emoji 和 subtitle（侧边栏的个性签名）。
+* 里面还有很多强大的开关，比如 darkmode（暗黑模式）、article.readingTime（阅读时间）等，全都可以根据你的喜好开启（设为 `true`）。
 
 **3. 菜单配置：`menu.toml`**
-这是左侧导航栏的配置。你可以看到 `[main]` 下面有 Home、Archives、Search 等，可以把 `name` 字段改成中文（如“首页”、“归档”、“搜索”）。
+这是左侧导航栏的配置。你可以看到 [main] 下面有 Home、Archives、Search 等，可以把 name 字段改成中文（如“首页”、“归档”、“搜索”）。
 
 ---
 
@@ -96,7 +99,7 @@ Stack 主题非常适合使用 **Page Bundles（页面包）** 来写文章，�
 ```bash
 hugo new content/post/my-first-post/index.md
 ```
-你会看到 `content/post/my-first-post/` 下多了一个 `index.md`。打开它，完善头部的 Front Matter：
+你会看到 content/post/my-first-post/ 下多了一个 `index.md`。打开它，完善头部的 Front Matter：
 ```yaml
 ---
 title: "我的第一篇 Stack 博客"
@@ -179,8 +182,8 @@ jobs:
 ```
 
 **2. 在 GitHub 建立仓库并设置权限**
-* 去 GitHub 新建一个名为 `你的用户名.github.io` 的公开仓库。
-* 在仓库的 **Settings -> Pages** 中，将 **Build and deployment -> Source** 改为 **`GitHub Actions`**。
+* 去 GitHub 新建一个名为 你的用户名.github.io 的公开仓库。
+* 在仓库的 **Settings -> Pages** 中，将 **Build and deployment -> Source** 改为 **GitHub Actions**。
 
 **3. 一键推送到云端**
 回到 VS Code 的终端，依次运行：
@@ -195,4 +198,4 @@ git push -u origin main
 **大功告成！**
 现在去 GitHub 的 Actions 面板，等大概 15 秒钟绿色对勾亮起，你的博客就正式上线了！
 
-之后每次写完文章（记得改 `draft: false`），直接用 VS Code 的源代码管理点一下**"同步更改 (Sync Changes)"**，剩下的交给 GitHub 云端去自动编译即可，你甚至不用在本地生成任何 HTML 文件。
+之后每次写完文章（记得改 draft: false），直接用 VS Code 的源代码管理点一下**"同步更改 (Sync Changes)"**，剩下的交给 GitHub 云端去自动编译即可，你甚至不用在本地生成任何 HTML 文件。
