@@ -1,7 +1,7 @@
 ---
 title: Hugo + Github 搭建你的个人Blog（最新Stack-V4主题）
 description: 简单方便的Stack-V4主题Blog搭建
-slug: Tools
+slug: blog-build
 date: 2026-03-06 00:00:00+0000
 image: cover.png
 categories:
@@ -37,7 +37,7 @@ go version    # 确认 Go 已安装
 
 ---
 
-### 第二步：拉取 Stack v4 官方极速模板
+### 第二步：拉取 Stack v4 官方模板
 
 我们直接把作者配置好的 v4 启动模板拉取下来，以此为基础修改。
 

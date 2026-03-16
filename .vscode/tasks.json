@@ -17,7 +17,7 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "hugo",
+            "command": "rm -rf public && hugo --minify",
             "group": {
                 "kind": "build",
                 "isDefault": true

@@ -26,21 +26,21 @@
 # 3. 哔哩哔哩 (Bilibili)
 [[social]]
     name = "Bilibili"
-    weight = 3
+    weight = 4
     url = "https://space.bilibili.com/63945101"
     [social.params]
         icon = "brand-bilibili"
 
 [[social]]
     name = "Instagram"
-    weight = 4
+    weight = 5
     url = "https://www.instagram.com/jzfeng.112?igsh=MXZnNGhsZmpiMGxqNw%3D%3D&utm_source=qr" 
     [social.params]
         icon = "brand-instagram"
 
 [[social]]
     name = "Tiktok"
-    weight = 5
+    weight = 3
     url = "https://v.douyin.com/QZgqYzzBD6w/" 
     [social.params]
         icon = "brand-tiktok"

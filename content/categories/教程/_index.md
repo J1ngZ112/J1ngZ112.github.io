@@ -1,6 +1,6 @@
 ---
-title: Example Category
-description: A description of this category
+title: 教程
+description: 配置指南或学习笔记
 image:
 
 # Badge style
