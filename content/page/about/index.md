@@ -14,7 +14,7 @@ Hi, 我是 Fenn
 
 ## 我在做什么
 
-- 正在做：仓储环境下的Agent
+- 正在做：智能仓储环境下的Agent
 - 正在学：多模态大模型
 - 长期方向：具身智能
 
@@ -36,10 +36,10 @@ Hi, 我是 Fenn
 
 - Email：[jzfeng0112@gmail.com](mailto:jzfeng0112@gmail.com)
 - GitHub：[J1ngZ112](https://github.com/J1ngZ112)
-- Tiktok：[抖音主页](https://v.douyin.com/QZgqYzzBD6w)
-- Bilibili：[我的 B 站主页](https://space.bilibili.com/63945101)
+- Tiktok：[惊蛰.](https://v.douyin.com/QZgqYzzBD6w)
+- Bilibili：[不语惊](https://space.bilibili.com/63945101)
 - Instagram：[jzfeng.112](https://www.instagram.com/jzfeng.112)
 
 ## 一句话介绍
 
-> 万事胜意
+> Stay Hungry, Stay Foolish
