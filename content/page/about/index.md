@@ -38,7 +38,7 @@ Hi, 我是 Fenn
 - GitHub：[J1ngZ112](https://github.com/J1ngZ112)
 - Tiktok：[惊蛰.](https://v.douyin.com/QZgqYzzBD6w)
 - Bilibili：[不语惊](https://space.bilibili.com/63945101)
-- Instagram：[jzfeng.112](https://www.instagram.com/jzfeng.112)
+- Instagram：[Fenn](https://www.instagram.com/jzfeng.112)
 
 ## 一句话介绍
 
