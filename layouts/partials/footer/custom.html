@@ -164,3 +164,30 @@
         initCustomFeatures();
     }
 </script>
+
+{{ $particlesJs := resources.Get "background/particles.min.js" }}
+{{ $particlesConfig := resources.Get "background/particlesjs-config.json" }}
+{{ if and $particlesJs $particlesConfig }}
+<div id="particles-js"></div>
+<script src="{{ $particlesJs.RelPermalink }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof particlesJS !== 'undefined') {
+            particlesJS.load('particles-js', '{{ $particlesConfig.RelPermalink }}', function () {
+                console.log('particles.js loaded - callback');
+            });
+        }
+    });
+</script>
+<style>
+    #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+    }
+</style>
+{{ end }}
