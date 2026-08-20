@@ -181,3 +181,209 @@
         padding-left: 32px;
     }
 }
+
+/* Quotes collection */
+.template-quotes {
+    .main {
+        min-width: 0;
+    }
+}
+
+.quotes-page {
+    width: 100%;
+}
+
+.quotes-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+    padding: 4px 2px 20px;
+    border-bottom: 1px solid var(--card-separator-color);
+
+    h1 {
+        margin: 0;
+        color: var(--card-text-color-main);
+        font-family: var(--article-font-family);
+        font-size: 2.6rem;
+        font-weight: 600;
+        letter-spacing: 0;
+    }
+
+    p {
+        margin: 8px 0 0;
+        color: var(--card-text-color-secondary);
+        font-size: 1.5rem;
+        line-height: 1.6;
+    }
+}
+
+.quotes-count {
+    flex: 0 0 auto;
+    color: var(--card-text-color-tertiary);
+    font-size: 1.4rem;
+    white-space: nowrap;
+}
+
+.quotes-list {
+    display: grid;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.quote-item {
+    position: relative;
+    padding-left: 26px;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 23px;
+        left: 5px;
+        width: 8px;
+        height: 8px;
+        border: 3px solid var(--accent-color);
+        border-radius: 50%;
+        background: var(--body-background);
+        box-sizing: content-box;
+        z-index: 1;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 38px;
+        bottom: -24px;
+        left: 11px;
+        width: 1px;
+        background: var(--card-separator-color);
+    }
+
+    &:last-child::after {
+        display: none;
+    }
+}
+
+.quote-entry {
+    padding: 24px 26px 20px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 8px;
+    background: var(--card-background);
+    box-shadow: var(--shadow-l1);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-l2);
+    }
+
+    blockquote {
+        position: relative;
+        margin: 0;
+        padding: 0 0 0 34px;
+        border: 0;
+
+        &::before {
+            content: "“";
+            position: absolute;
+            top: -8px;
+            left: 0;
+            color: var(--accent-color);
+            font-family: Georgia, serif;
+            font-size: 4rem;
+            line-height: 1;
+        }
+
+        p {
+            margin: 0;
+            color: var(--card-text-color-main);
+            font-family: var(--article-font-family);
+            font-size: 1.85rem;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        cite {
+            display: block;
+            margin-top: 12px;
+            color: var(--card-text-color-secondary);
+            font-size: 1.4rem;
+            font-style: normal;
+        }
+    }
+
+    time {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin: 20px 0 0 34px;
+        padding-top: 14px;
+        border-top: 1px solid var(--card-separator-color);
+        color: var(--card-text-color-tertiary);
+        font-size: 1.3rem;
+
+        svg {
+            width: 17px;
+            height: 17px;
+            flex: 0 0 auto;
+            stroke-width: 1.6;
+        }
+    }
+}
+
+.quotes-empty {
+    padding: 48px 24px;
+    border: 1px dashed var(--card-separator-color);
+    border-radius: 8px;
+    color: var(--card-text-color-secondary);
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .article-page .main > aside .subsection-list {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .quotes-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        h1 {
+            font-size: 2.3rem;
+        }
+    }
+
+    .quote-item {
+        padding-left: 20px;
+
+        &::before {
+            left: 1px;
+        }
+
+        &::after {
+            left: 7px;
+        }
+    }
+
+    .quote-entry {
+        padding: 20px 18px 17px;
+
+        blockquote {
+            padding-left: 27px;
+
+            p {
+                font-size: 1.65rem;
+            }
+        }
+
+        time {
+            margin-left: 27px;
+        }
+    }
+}

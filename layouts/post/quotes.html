@@ -1,0 +1,42 @@
+{{ define "body-class" }}template-quotes{{ end }}
+
+{{ define "main" }}
+    {{- $quotes := .Params.quotes | default slice -}}
+    <section class="quotes-page" aria-labelledby="quotes-title">
+        <header class="quotes-header">
+            <div>
+                <h1 id="quotes-title">{{ .Title }}</h1>
+                {{ with .Description }}<p>{{ . }}</p>{{ end }}
+            </div>
+            <span class="quotes-count" aria-label="共收藏 {{ len $quotes }} 条语录">
+                {{ len $quotes }} 条收藏
+            </span>
+        </header>
+
+        {{ if $quotes }}
+            <ol class="quotes-list">
+                {{ range $quotes }}
+                    {{- $recordedAt := time.AsTime .recordedAt -}}
+                    <li class="quote-item">
+                        <article class="quote-entry">
+                            <blockquote>
+                                <p>{{ .text }}</p>
+                                {{ with .source }}<cite>— {{ . }}</cite>{{ end }}
+                            </blockquote>
+                            <time datetime="{{ $recordedAt.Format "2006-01-02T15:04:05Z07:00" }}">
+                                {{ partial "helper/icon" "clock" }}
+                                记录于 {{ $recordedAt.Format "2006年01月02日 15:04" }}
+                            </time>
+                        </article>
+                    </li>
+                {{ end }}
+            </ol>
+        {{ else }}
+            <div class="quotes-empty">
+                <p>还没有收藏语录。</p>
+            </div>
+        {{ end }}
+    </section>
+
+    {{ partialCached "footer/footer" . }}
+{{ end }}
