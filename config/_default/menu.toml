@@ -1,4 +1,12 @@
 # Configure main menu and social menu
+[[main]]
+    identifier = "gallery"
+    name = "Gallery"
+    url = "/gallery/"
+    weight = 2
+    [main.params]
+        icon = "gallery"
+
 #[[main]]
 #identifier = "home"
 #name = "Home"
@@ -44,4 +52,3 @@
     url = "https://v.douyin.com/QZgqYzzBD6w/" 
     [social.params]
         icon = "brand-tiktok"
-

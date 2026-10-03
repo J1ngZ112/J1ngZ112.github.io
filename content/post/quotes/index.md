@@ -9,6 +9,8 @@ aliases:
 comments: false
 quotes:
   # Add new entries at the top so the newest quote appears first.
+  - text: "每段路都有他的意义，别频频回望，也别否定当时的坚持"
+    recordedAt: "2026-03-12T01:01:33+08:00"
   - text: "命运托举你的方式有时很意外，换句话说，你根本不会错过注定属于你的东西"
     recordedAt: "2026-02-21T01:01:33+08:00"
   - text: "人心各有所愿，没有道理可讲"

@@ -1,0 +1,124 @@
+{{ define "body-class" }}template-gallery{{ end }}
+
+{{ define "left-sidebar" }}{{ end }}
+{{ define "right-sidebar" }}{{ end }}
+
+{{ define "main" }}
+    {{- $series := .Params.series | default slice -}}
+    {{- $photoCount := 0 -}}
+    {{- range $series }}{{ $photoCount = add $photoCount (len .photos) }}{{ end -}}
+    <main class="gallery-page" aria-labelledby="gallery-title">
+        <header class="gallery-hero">
+            <div class="gallery-topbar">
+                <a class="gallery-home-link" href="{{ .Site.Home.RelPermalink }}">{{ partial "helper/icon" "arrow-back" }}<span>返回主页 · Home</span></a>
+                <div class="gallery-kicker">VISUAL JOURNAL · {{ now.Format "2006" }}</div>
+            </div>
+            <div class="gallery-hero-grid">
+                <div>
+                    <h1 id="gallery-title">{{ .Title }}</h1>
+                    {{ with .Description }}<p class="gallery-lede">{{ . }}</p>{{ end }}
+                </div>
+                <div class="gallery-stats" aria-label="相册统计">
+                    <span>{{ printf "%02d" $photoCount }} 张照片</span>
+                    <span>{{ printf "%02d" (len $series) }} 个系列</span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="gallery-index-rail" aria-label="相册系列目录">
+            <span class="gallery-index-label">INDEX</span>
+            <div class="gallery-index-links">
+                {{ range $index, $item := $series }}
+                    <a href="#series-{{ $item.slug }}" data-gallery-index="series-{{ $item.slug }}"><span>{{ printf "%02d" (add $index 1) }}</span><strong>{{ $item.title }}</strong></a>
+                {{ end }}
+            </div>
+        </nav>
+
+        <div class="gallery-series-list">
+            {{ range $index, $item := $series }}
+                <section class="gallery-series" id="series-{{ $item.slug }}" aria-labelledby="series-{{ $item.slug }}-title">
+                    <div class="gallery-series-heading">
+                        <div class="gallery-series-number">{{ printf "%02d" (add $index 1) }}</div>
+                        <div>
+                            <h2 id="series-{{ $item.slug }}-title">{{ $item.title }}</h2>
+                            <p>{{ $item.description }}</p>
+                        </div>
+                        <div class="gallery-series-count">{{ len $item.photos }} works</div>
+                    </div>
+                    <div class="gallery-grid gallery-grid-{{ len $item.photos }}">
+                        {{ range $photoIndex, $photo := $item.photos }}
+                            <button class="gallery-card" type="button"
+                                data-gallery-image="{{ $photo.image | relURL }}"
+                                data-gallery-title="{{ $photo.title }}"
+                                data-gallery-meta="{{ $photo.meta }}"
+                                aria-label="查看 {{ $photo.title }}">
+                                <span class="gallery-card-image">
+                                    <img src="{{ $photo.image | relURL }}" alt="{{ $photo.title }}" loading="lazy" decoding="async">
+                                </span>
+                                <span class="gallery-card-caption"><strong>{{ $photo.title }}</strong><small>{{ $photo.meta }}</small></span>
+                            </button>
+                        {{ end }}
+                    </div>
+                </section>
+            {{ end }}
+        </div>
+
+        <footer class="gallery-colophon">
+            <a href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }} · 返回主页</a>
+            <span>照片、行走与日常记录</span>
+            <a href="#gallery-title">返回顶部 ↑</a>
+        </footer>
+    </main>
+
+    <dialog class="gallery-lightbox" aria-label="照片预览">
+        <button class="gallery-lightbox-close" type="button" aria-label="关闭预览">×</button>
+        <figure>
+            <img src="" alt="">
+            <figcaption><strong></strong><span></span></figcaption>
+        </figure>
+    </dialog>
+    <script>
+        (() => {
+            const dialog = document.querySelector('.gallery-lightbox');
+            const lightboxImage = dialog?.querySelector('img');
+            const title = dialog?.querySelector('strong');
+            const meta = dialog?.querySelector('span');
+            if (!dialog || !lightboxImage) return;
+            document.querySelectorAll('[data-gallery-image]').forEach((card) => {
+                card.addEventListener('click', () => {
+                    lightboxImage.src = card.dataset.galleryImage;
+                    lightboxImage.alt = card.dataset.galleryTitle || '';
+                    title.textContent = card.dataset.galleryTitle || '';
+                    meta.textContent = card.dataset.galleryMeta || '';
+                    dialog.showModal();
+                });
+            });
+            dialog.addEventListener('click', (event) => {
+                if (event.target === dialog || event.target.closest('.gallery-lightbox-close')) dialog.close();
+            });
+            dialog.addEventListener('close', () => { lightboxImage.src = ''; });
+
+            const series = [...document.querySelectorAll('.gallery-series')];
+            const indexLinks = [...document.querySelectorAll('[data-gallery-index]')];
+            const setActiveSeries = (id) => {
+                indexLinks.forEach((link) => {
+                    const active = link.dataset.galleryIndex === id;
+                    link.classList.toggle('is-active', active);
+                    if (active) link.setAttribute('aria-current', 'true');
+                    else link.removeAttribute('aria-current');
+                });
+            };
+            if (series.length && indexLinks.length) {
+                setActiveSeries(series[0].id);
+                const observer = new IntersectionObserver((entries) => {
+                    entries.filter((entry) => entry.isIntersecting)
+                        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+                        .forEach((entry) => setActiveSeries(entry.target.id));
+                }, { rootMargin: '-25% 0px -55% 0px', threshold: [0, 0.15, 0.5] });
+                series.forEach((section) => observer.observe(section));
+            }
+        })();
+    </script>
+
+    {{ partialCached "footer/footer" . }}
+{{ end }}
