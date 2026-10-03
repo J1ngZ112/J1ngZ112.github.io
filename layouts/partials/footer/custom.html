@@ -124,7 +124,7 @@
     function initArticlePageView() {
         const metaInline = document.querySelector('.main-article .article-meta .inline-meta');
         if (!metaInline || document.getElementById('busuanzi_value_page_pv')) {
-            return;
+            return false;
         }
 
         const pvWrapper = document.createElement('span');
@@ -139,6 +139,7 @@
             </span>
         `;
         metaInline.appendChild(pvWrapper);
+        return true;
     }
 
     function loadBusuanziScript() {
@@ -154,8 +155,15 @@
 
     function initCustomFeatures() {
         initCodeMoreBox();
-        initArticlePageView();
-        loadBusuanziScript();
+        if (!initArticlePageView()) {
+            return;
+        }
+        const load = () => loadBusuanziScript();
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(load, { timeout: 2000 });
+        } else {
+            window.setTimeout(load, 1200);
+        }
     }
 
     if (document.readyState === 'loading') {

@@ -12,7 +12,7 @@ series:
       - { title: "爱情邮局", meta: "珠海", image: "/gallery/photos/P1001904.JPG" }
       - { title: "爱情邮局", meta: "珠海", image: "/gallery/photos/P1001906.JPG" }
       - { title: "北山", meta: "珠海", image: "/gallery/photos/IMG_2955.JPG" }
-      - { title: "北山", meta: "珠海", image: "/gallery/photos/IMG_2957.JPG" }
+      - { title: "北山", meta: "珠海", image: "/gallery/photos/IMG_2957.jpg" }
       - { title: "站台", meta: "香港", image: "/gallery/photos/P1001845.JPG" }
       - { title: "维港", meta: "香港", image: "/gallery/photos/P1001841.JPG" }
       - { title: "维港", meta: "香港", image: "/gallery/photos/IMG_3282.JPG" }
