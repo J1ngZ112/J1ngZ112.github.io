@@ -14,8 +14,8 @@ Hi, 我是 Fenn
 
 ## 我在做什么
 
-- 正在做：智能仓储环境下的Agent、VLA训练与微调
-- 正在学：多模态大模型下的具身推理
+- 正在做：智能仓储环境下的Agent、VLA后训练与真机部署
+- 正在学：VLA/WAM 预训练、解耦图像信息并提取场景结构表示
 - 长期方向：具身智能
 
 ## 技能栈
@@ -40,6 +40,3 @@ Hi, 我是 Fenn
 - Bilibili：[不语惊](https://space.bilibili.com/63945101)
 - Instagram：[Fenn](https://www.instagram.com/jzfeng.112)
 
-## 一句话介绍
-
-> Stay Hungry, Stay Foolish

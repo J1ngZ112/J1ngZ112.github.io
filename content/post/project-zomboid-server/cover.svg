@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720" role="img" aria-labelledby="title desc">
+  <title id="title">用阿里云 ECS 搭建僵尸毁灭工程服务器</title>
+  <desc id="desc">深绿色背景上的云服务器与三位联机玩家，以橙色连线连接。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#101f22"/><stop offset="1" stop-color="#263d35"/></linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#a8cab4" stroke-opacity=".06"/></pattern>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1440v720H0z"/><path fill="url(#grid)" d="M0 0h1440v720H0z"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif">
+    <rect x="88" y="86" width="240" height="40" rx="20" fill="#d4aa64"/><text x="208" y="113" text-anchor="middle" fill="#172823" font-size="18" font-weight="700">PROJECT ZOMBOID</text>
+    <text x="88" y="230" fill="#f2f0e6" font-size="57" font-weight="700">和朋友们，在肯塔基州</text>
+    <text x="88" y="315" fill="#f2f0e6" font-size="67" font-weight="700">多活几天。</text>
+    <text x="92" y="393" fill="#b8ccc0" font-size="27">阿里云 ECS 专用服务器搭建记录</text>
+    <path d="M92 443h550" stroke="#d4aa64" stroke-opacity=".5"/>
+    <text x="92" y="498" fill="#d8e3d9" font-size="22">Ubuntu · SteamCMD · 内存调优 · 存档备份</text>
+    <text x="92" y="623" fill="#8ea79a" font-size="19">FENN / SERVER NOTES / 2026.10</text>
+    <g fill="none" stroke="#d4aa64" stroke-width="3"><path d="M1070 355v110M1070 465H900v65M1070 465v65M1070 465h170v65"/><circle cx="1070" cy="465" r="7" fill="#d4aa64"/></g>
+    <rect x="917" y="174" width="306" height="183" rx="20" fill="#192c2a" stroke="#789485" stroke-width="2"/>
+    <g fill="#30483d" stroke="#789485"><rect x="944" y="202" width="252" height="48" rx="8"/><rect x="944" y="267" width="252" height="48" rx="8"/></g>
+    <g fill="#b7ce95"><circle cx="1173" cy="226" r="6"/><circle cx="1173" cy="291" r="6"/></g>
+    <text x="966" y="234" fill="#f2f0e6" font-size="20">ECS / PZ SERVER</text><text x="966" y="298" fill="#b8ccc0" font-size="17">UDP 16261 · 16262</text>
+    <g fill="#20372f" stroke="#789485" stroke-width="2"><rect x="850" y="530" width="100" height="68" rx="10"/><rect x="1020" y="530" width="100" height="68" rx="10"/><rect x="1190" y="530" width="100" height="68" rx="10"/></g>
+    <g fill="#b8ccc0" font-size="17" text-anchor="middle"><text x="900" y="571">玩家 A</text><text x="1070" y="571">玩家 B</text><text x="1240" y="571">玩家 C</text></g>
+  </g>
+</svg>

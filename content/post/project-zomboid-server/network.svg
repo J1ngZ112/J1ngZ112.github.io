@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="520" viewBox="0 0 1080 520" role="img" aria-labelledby="title desc">
+  <title id="title">PZ 服务器连接与数据目录</title><desc id="desc">玩家的 UDP 流量先经过安全组和系统防火墙，再到游戏服务端。管理员通过 SSH 维护服务器，游戏数据与程序分别保存。</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="#507968"/></marker></defs>
+  <rect width="1080" height="520" rx="20" fill="#f2f5ef"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" text-anchor="middle">
+    <text x="540" y="49" font-size="25" fill="#20372f" font-weight="700">从玩家电脑到云端世界</text>
+    <g fill="#fff" stroke="#97b1a1" stroke-width="2"><rect x="36" y="110" width="180" height="100" rx="12"/><rect x="294" y="110" width="200" height="100" rx="12"/><rect x="572" y="110" width="200" height="100" rx="12"/><rect x="850" y="110" width="194" height="100" rx="12"/></g>
+    <g fill="#20372f" font-size="22"><text x="126" y="153">玩家客户端</text><text x="394" y="153">ECS 安全组</text><text x="672" y="153">系统防火墙</text><text x="947" y="153">PZ 服务端</text></g>
+    <g fill="#587063" font-size="16"><text x="126" y="183">公网 IP : 16261</text><text x="394" y="183">放行 UDP 两个端口</text><text x="672" y="183">若已启用，也需放行</text><text x="947" y="183">以 pz 用户运行</text></g>
+    <g stroke="#507968" stroke-width="2.5" marker-end="url(#arrow)" fill="none"><path d="M216 160h68"/><path d="M494 160h68"/><path d="M772 160h68"/><path d="M947 210v66H694v41"/><path d="M947 276v41"/></g>
+    <rect x="572" y="320" width="244" height="112" rx="12" fill="#dfe8dc"/><rect x="838" y="320" width="218" height="112" rx="12" fill="#eae2cf"/>
+    <text x="694" y="354" fill="#20372f" font-size="20">游戏数据</text><text x="694" y="385" fill="#587063" font-size="17">/home/pz/Zomboid/</text><text x="694" y="412" fill="#587063" font-size="16">配置 · 世界 · 玩家数据库</text>
+    <text x="947" y="354" fill="#20372f" font-size="20">服务端程序</text><text x="947" y="385" fill="#587063" font-size="17">/home/pz/pzserver/</text><text x="947" y="412" fill="#587063" font-size="16">SteamCMD 安装与更新</text>
+    <rect x="36" y="320" width="458" height="112" rx="12" fill="#20372f"/><text x="265" y="360" fill="#f2f5ef" font-size="21">管理员 → SSH / TCP 22 → ECS</text><text x="265" y="397" fill="#bed0bf" font-size="17">安装、配置、screen 控制台、备份</text>
+    <text x="540" y="480" fill="#587063" font-size="17">连接失败时，按“公网地址 → 安全组 → 系统防火墙 → 进程监听”的顺序排查。</text>
+  </g>
+</svg>
