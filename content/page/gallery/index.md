@@ -9,7 +9,6 @@ series:
     description: "街道、建筑，以及城市在黄昏时的呼吸。"
     photos:
       - { title: "威尼斯人", meta: "澳门", image: "/gallery/photos/P1001893.JPG" }
-      - { title: "爱情邮局", meta: "珠海", image: "/gallery/photos/P1001904.JPG" }
       - { title: "爱情邮局", meta: "珠海", image: "/gallery/photos/P1001906.JPG" }
       - { title: "北山", meta: "珠海", image: "/gallery/photos/IMG_2955.JPG" }
       - { title: "北山", meta: "珠海", image: "/gallery/photos/IMG_2957.JPG" }

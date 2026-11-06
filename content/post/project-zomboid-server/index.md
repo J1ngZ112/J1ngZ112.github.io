@@ -170,6 +170,9 @@ free -h
 su - pz
 cd /home/pz/pzserver
 bash start-server.sh -servername servertest
+# 或者一键命令
+su - pz -c "cd /home/pz/pzserver && screen -dmS pz bash start-server.sh"
+su - pz -c "screen -r pz" # 进入进程
 ```
 
 如果当前已经是 `pz`，直接从 `cd` 开始。首次启动会初始化世界、生成配置，并可能提示设置游戏内 `admin` 账号的密码。**管理员密码与朋友进服用的服务器密码是两件事。**

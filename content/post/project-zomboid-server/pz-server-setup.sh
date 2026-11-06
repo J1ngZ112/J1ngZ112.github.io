@@ -1,97 +1,121 @@
-#!/usr/bin/env bash
-# Ubuntu 22.04 x86_64：安装公开分支 PZ 服务端，不启动、不恢复或覆盖游戏数据。
-# 用法：以 root 执行 bash pz-server-setup.sh
-# 可选：PZ_HEAP_MAX=6g bash pz-server-setup.sh
-set -euo pipefail
+#!/bin/bash
+###############################################################################
+# Project Zomboid 服务器一键部署脚本（Ubuntu 22.04 / 阿里云 ECS 4核8G 验证通过）
+#
+# 用法：
+#   1. 新实例创建后，先在控制台放行安全组 UDP 16261/16262（脚本管不了云防火墙）
+#   2. scp 本脚本到服务器:  scp pz-server-setup.sh root@你的IP:/root/
+#   3. SSH 登录后执行:      bash /root/pz-server-setup.sh
+#   4. （可选）恢复存档:    bash /root/pz-server-setup.sh --restore /root/pzsave.tar.gz
+#
+# 脚本完成后还需手动做的两件事：
+#   - 上传本地配置: scp ~/Zomboid/Server/servertest* root@IP:/home/pz/Zomboid/Server/
+#     然后 chown pz:pz /home/pz/Zomboid/Server/servertest*
+#   - 启动服务器:   su - pz; cd /home/pz/pzserver; screen -S pz; bash start-server.sh
+###############################################################################
 
-if [[ $(id -u) -ne 0 ]]; then
-    echo '请以 root 运行此脚本。' >&2
-    exit 1
-fi
-if [[ $(uname -m) != x86_64 ]]; then
-    echo '此脚本仅面向 x86_64 实例。' >&2
+set -e
+
+# ---------- 可配置项 ----------
+PZ_USER=pz
+PZ_DIR=/home/pz/pzserver
+HEAP_SIZE=4g          # Java 堆内存，mod 多可改 6g
+SWAP_SIZE=4G
+BACKUP_KEEP=20        # 保留的备份份数
+BACKUP_CRON="0 */6 * * *"   # 每 6 小时备份一次
+# ------------------------------
+
+if [ "$(id -u)" != "0" ]; then
+    echo "请用 root 运行: bash $0"
     exit 1
 fi
 
-PZ_HEAP_MAX=${PZ_HEAP_MAX:-4g}
-if [[ ! $PZ_HEAP_MAX =~ ^[1-9][0-9]*[gG]$ ]]; then
-    echo 'PZ_HEAP_MAX 需要是 4g、6g 等格式。' >&2
-    exit 1
-fi
-if [[ ${PZ_HEAP_MAX%[gG]} -lt 2 ]]; then
-    echo '此脚本的初始堆为 2g，最大堆不能小于 2g。' >&2
-    exit 1
-fi
-
+echo "==> [1/7] 安装依赖"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get install -y lib32gcc-s1 lib32stdc++6 screen curl ca-certificates python3
-if ! id pz >/dev/null 2>&1; then
-    useradd -m -s /bin/bash pz
+apt update
+apt install -y lib32gcc-s1 screen curl
+
+echo "==> [2/7] 创建 ${PZ_USER} 用户"
+if ! id "$PZ_USER" &>/dev/null; then
+    useradd -m -s /bin/bash "$PZ_USER"
 fi
 
-runuser -l pz -c 'bash -s' <<'INSTALL'
-set -euo pipefail
-# 重复运行可能更新程序或重置启动配置，请先关闭游戏进程。
-if pgrep -u "$(id -u)" -f 'zombie.network.GameServer' >/dev/null; then
-    echo '检测到游戏服务端进程，请先用 quit 正常关服。' >&2
-    exit 1
+echo "==> [3/7] 配置 ${SWAP_SIZE} swap"
+if ! swapon --show | grep -q swapfile; then
+    fallocate -l "$SWAP_SIZE" /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    grep -q swapfile /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
 fi
-mkdir -p /home/pz/steamcmd
-cd /home/pz/steamcmd
-if [[ ! -f steamcmd.sh ]]; then
-    curl -fSL --retry 3 \
-        https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz \
-        -o steamcmd_linux.tar.gz
-    tar -xzf steamcmd_linux.tar.gz
+
+echo "==> [4/7] 安装 SteamCMD 和 PZ 服务端（约几百MB，耐心等待）"
+sudo -u "$PZ_USER" bash <<'EOF'
+set -e
+mkdir -p ~/steamcmd && cd ~/steamcmd
+if [ ! -f steamcmd.sh ]; then
+    curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
 fi
-installed=0
-for attempt in 1 2 3; do
-    log=$(mktemp)
-    if ./steamcmd.sh +force_install_dir /home/pz/pzserver \
-        +login anonymous +app_update 380870 validate +quit >"$log" 2>&1; then
-        if grep -Eq "Success! App '380870' (fully installed|already up to date)" "$log"; then
-            installed=1
-        fi
-    fi
-    cat "$log"
-    rm -f "$log"
-    if [[ $installed -eq 1 ]]; then
-        break
-    fi
-    echo "第 ${attempt}/3 次安装未确认成功。" >&2
-    if [[ $attempt -lt 3 ]]; then sleep 5; fi
+# 匿名接口偶尔抽风，失败自动重试 3 次
+for i in 1 2 3; do
+    ./steamcmd.sh +force_install_dir /home/pz/pzserver +login anonymous \
+        +app_update 380870 validate +quit && break
+    echo "安装失败，第 $i 次重试..."
+    sleep 5
 done
-if [[ $installed -ne 1 ]]; then
-    echo '安装失败，请检查上方日志、网络和 Steam 分支。' >&2
-    exit 1
+EOF
+
+echo "==> [5/7] 调整 Java 堆内存为 ${HEAP_SIZE}（防止 OOM 被杀）"
+sed -i "s/\"-Xms[0-9]*[gG]\"/\"-Xms${HEAP_SIZE}\"/; s/\"-Xmx[0-9]*[gG]\"/\"-Xmx${HEAP_SIZE}\"/" \
+    "$PZ_DIR/ProjectZomboid64.json"
+
+echo "==> [6/7] 配置存档自动备份"
+cat > /home/pz/backup.sh <<EOF
+#!/bin/bash
+BACKUP_DIR=/home/pz/backups
+SAVE_DIR=/home/pz/Zomboid/Saves/Multiplayer
+mkdir -p "\$BACKUP_DIR"
+tar -czf "\$BACKUP_DIR/pzsave-\$(date +%Y%m%d-%H%M).tar.gz" -C "\$SAVE_DIR" servertest
+ls -t "\$BACKUP_DIR"/pzsave-*.tar.gz | tail -n +$((BACKUP_KEEP+1)) | xargs -r rm
+EOF
+chmod +x /home/pz/backup.sh
+chown "$PZ_USER:$PZ_USER" /home/pz/backup.sh
+# 写入 pz 用户的 crontab（去重）
+sudo -u "$PZ_USER" bash -c \
+    "(crontab -l 2>/dev/null | grep -v backup.sh; echo '$BACKUP_CRON /home/pz/backup.sh') | crontab -"
+
+echo "==> [7/7] 收尾"
+chown -R "$PZ_USER:$PZ_USER" /home/pz
+
+# 可选：恢复存档（tar 包内应包含 servertest/ 目录）
+if [ "$1" = "--restore" ] && [ -n "$2" ]; then
+    echo "==> 恢复存档: $2"
+    sudo -u "$PZ_USER" mkdir -p /home/pz/Zomboid/Saves/Multiplayer
+    tar -xzf "$2" -C /home/pz/Zomboid/Saves/Multiplayer
+    chown -R "$PZ_USER:$PZ_USER" /home/pz/Zomboid
+    echo "    存档已恢复"
 fi
-INSTALL
 
-# 只替换存在的 JVM 参数；格式变化时停止，不假装调整成功。
-python3 - "$PZ_HEAP_MAX" <<'PY'
-import json
-import re
-import shutil
-import sys
-from datetime import datetime
-from pathlib import Path
+cat <<'DONE'
 
-config = Path('/home/pz/pzserver/ProjectZomboid64.json')
-data = json.loads(config.read_text())
-args = data['vmArgs']
-if not isinstance(args, list):
-    raise SystemExit('vmArgs 格式不符合预期，请手动检查启动配置。')
-for flag, size in (('Xms', '2g'), ('Xmx', sys.argv[1])):
-    matches = [i for i, arg in enumerate(args) if re.fullmatch(rf'-{flag}\d+[kKmMgG]?', arg)]
-    if len(matches) != 1:
-        raise SystemExit(f'未找到唯一的 {flag} 参数，请手动检查启动配置。')
-    args[matches[0]] = f'-{flag}{size}'
-backup = config.with_name(config.name + '.before-' + datetime.now().strftime('%Y%m%d-%H%M%S-%f'))
-shutil.copy2(config, backup)
-config.write_text(json.dumps(data, indent=4) + '\n')
-PY
+==========================================
+  部署完成！接下来手动做这几件事：
 
-echo '基础安装完成。请确认内存参数、安全组和游戏版本，再恢复数据或手动首次启动。'
-echo '启动方法：su - pz，然后进入 screen，执行：'
-echo 'cd /home/pz/pzserver && bash start-server.sh -servername servertest'
+  1. 【每次新实例必做】阿里云控制台放行安全组：
+     入方向 自定义UDP 16261/16262 来源 0.0.0.0/0
+
+  2. 上传本地配置（在你自己电脑终端执行）：
+     scp ~/Zomboid/Server/servertest* root@本机IP:/home/pz/Zomboid/Server/
+     然后在本服务器执行:
+     chown pz:pz /home/pz/Zomboid/Server/servertest*
+
+  3. 启动服务器：
+     su - pz
+     cd /home/pz/pzserver
+     screen -S pz
+     bash start-server.sh
+     （首次启动会提示设置管理员密码）
+
+  4. 退出 screen 保持后台: Ctrl+A 然后 D
+==========================================
+DONE
